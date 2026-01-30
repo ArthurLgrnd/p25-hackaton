@@ -8,25 +8,11 @@ TILE=16
 INITIAL_SHEEP=50
 INITIAL_WOLF=10
 INITIAL_GRASS_COVERAGE=30
+SHEEP_INITIAL_ENERGY=20
+WOLF_INITIAL_ENERGY=40
 
-class wolf:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-    def draw(self):
-        pyxel.blt(self.x*TILE, self.y*TILE, 1, 0, 0, 16, 16, 0)
+from entities import wolf, sheep, grass
 
-class sheep:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-    def draw(self):
-        pyxel.blt(self.x*TILE, self.y*TILE, 0, 0, 0, 16, 16, 0)
-
-class grass:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
 
 class grid:
     def __init__(self):
@@ -38,21 +24,24 @@ class grid:
         def libre(x, y):
             return all(obj.x != x or obj.y != y
                        for obj in (self.is_sheep + self.is_wolf))
+        def sol(x, y):
+            return all(obj.x != x or obj.y !=y
+                       for obj in self.is_grass)
 
         while len(self.is_grass) < np.floor(INITIAL_GRASS_COVERAGE*GRID_SIZE**2/100):
             x1, y1 =rd.randint(0,GRID_SIZE-1), rd.randint(0,GRID_SIZE-1)
-            if grass(x1,y1) not in self.is_grass:
-                self.is_grass += [grass(x1, y1)]
+            if sol(x1,y1):
+                self.is_grass += [grass(x1, y1, True)]
 
         while len(self.is_sheep) < INITIAL_SHEEP:
             x1, y1=rd.randint(0,GRID_SIZE-1), rd.randint(0,GRID_SIZE-1)
             if libre(x1, y1):
-                self.is_sheep += [sheep(x1, y1)]
+                self.is_sheep += [sheep(x1, y1,SHEEP_INITIAL_ENERGY,0)]
 
         while len(self.is_wolf) < INITIAL_WOLF:
             x1, y1=rd.randint(0,GRID_SIZE-1), rd.randint(0,GRID_SIZE-1)
             if libre(x1, y1):
-                self.is_wolf += [wolf(x1, y1)]
+                self.is_wolf += [wolf(x1, y1,WOLF_INITIAL_ENERGY,0)]
 
         pyxel.init(GRID_SIZE*TILE, GRID_SIZE*TILE, title="Simulation")
         pyxel.load("sim.pyxres")
@@ -76,7 +65,7 @@ class grid:
     def draw(self):
         pyxel.cls(4)
         for g in self.is_grass:
-            pyxel.rect(g.x*TILE, g.y*TILE, TILE, TILE, 3)
+            g.draw()
         for s in self.is_sheep:
             s.draw()
         for w in self.is_wolf:

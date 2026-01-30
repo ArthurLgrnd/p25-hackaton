@@ -1,5 +1,10 @@
 import numpy as np
 import random as rd
+import pyxel
+
+
+TILE=16
+
 
 class sheep() :
 
@@ -10,6 +15,10 @@ class sheep() :
         self.age=age
         self.mort=False
         self.repro=False
+
+    def draw(self):
+        pyxel.blt(self.x*TILE, self.y*TILE, 0, 0, 0, 16, 16, 0)
+
 
     """  # Pour savoir si on est sur le bord
     def cases_dispo(self, grid_size):
@@ -43,8 +52,8 @@ class sheep() :
                 return([(0,1),(0,-1),(1,0),(-1,0)])                        
 
 """
-    def Deplacement(self,cases): # cases : liste des cases possibles (tri si grass déjà fait)     
-        (self.x,self.y) += rd.choice(cases)
+    #def deplacement(self,cases): # cases : liste des cases possibles (tri si grass déjà fait)     
+            #(self.x,self.y) += rd.choice(cases)
  
     def Alimentation(self): # Lancé par sim 
         self.energy+=10
@@ -71,10 +80,13 @@ class wolf() :
         self.energy=energy
         self.age=age
         self.mort=False
-        self.repro=False              
+        self.repro=False  
 
-    def Deplacement(self,cases): # cases : liste des cases possibles (tri si sheep déjà fait)     
-        (self.x,self.y) += rd.choice(cases)
+    def draw(self):
+        pyxel.blt(self.x*TILE, self.y*TILE, 1, 0, 0, 16, 16, 0)           
+
+    #def Deplacement(self,cases): # cases : liste des cases possibles (tri si sheep déjà fait)     
+        #(self.x,self.y) += rd.choice(cases)
 
     def Alimentation(self): # Lancé par sim 
         self.energy+=30 
@@ -99,6 +111,9 @@ class grass() :
          self.y=y
          self.state=state # Bool
          self.compt=0
+
+    def draw(self):
+         pyxel.rect(self.x*TILE, self.y*TILE, TILE, TILE, 3 if self.state == True else 15)
 
     def growing(self):
          self.compt+=1
