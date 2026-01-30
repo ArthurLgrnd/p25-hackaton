@@ -12,41 +12,19 @@ class sheep() :
         self.repro=False
         self.energy_seuil = energy_seuil
 
-    """  # Pour savoir si on est sur le bord
-    def cases_dispo(self, grid_size):
-        if self.x==0:
-            if self.y==0:
-                return([(0,1),(1,0)])
 
-            if self.y==grid_size[1]:
-                return([(0,-1),(1,0)])
 
-            else:
-                return([(0,1),(0,-1),(1,0)])
 
-        elif self.x==grid_size[0]:
-            if self.y==0:
-                return([(0,1),(-1,0)])
 
-            if self.y==grid_size[1]:
-                return([(0,-1),(-1,0)])
 
-            else:
-                return([(0,1),(0,-1),(-1,0)])
+    def Deplacement(self,cases): # cases : liste des cases intéressantes à voir (priorité aux ressources)  
+        new_x,new_y = (self.x,self.y) + rd.choice(cases)
+        if 0<= new_x < 50 and 0<= new_y < 50 :
+            (self.x,self.y) = (new_x,new_y)
+        # on suppose ici que si l'animal veut se déplacer aléatoirement en dehors de la grille , il s'arrete...  
+    
 
-        elif self.y==0:
-                return([(0,1),(1,0),(-1,0)])
 
-        elif self.y==grid_size[1]:
-                return([(0,-1),(1,0),(-1,0)])
-
-        else:
-                return([(0,1),(0,-1),(1,0),(-1,0)])                        
-
-"""
-    def Deplacement(self,cases): # cases : liste des cases possibles (tri si grass déjà fait)     
-        (self.x,self.y) += rd.choice(cases)
- 
     def Alimentation(self): # Lancé par sim 
         self.energy+=10
     

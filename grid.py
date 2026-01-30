@@ -117,13 +117,18 @@ class grid:
     def phase_moutons(self):
         # on supprime l'herbe là où se trouvent des moutons
         for s in self.is_sheep : 
+            if:
+                s.alimentation
             self.remove_grass(s.x,s.y)
             cases = self.where_grass(s.x,s.y)
             s.deplacement(cases)
 
+
     def phase_loups(self):
         # on supprime les moutons là où se trouvent des loups
         for w in self.is_wolf : 
+            if:
+                w.alimentation
             self.remove_sheep(w.x,w.y)
             cases = self.where_grass(w.x,w.y)
             w.deplacement(cases)
