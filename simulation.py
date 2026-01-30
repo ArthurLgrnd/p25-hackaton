@@ -45,31 +45,23 @@ class Simulation :
 
 
 
-    def aging(self,liste):
-        pass
-    def update_grass(self,liste):
-        pass
-    def phasde_moutons(self):
-        pass
-    def phase_loups(self):
-        pass
-    def update_dead(self):
-        pass
-    def reproduction(self):
-        pass
-
-
-
 
 
     def run_sim(self):
     
-        new_grid_sheep = self.grid.is_sheep
-        new_grid_wolf = self.grid.is_wolf
-        new_grid_grass = self.grid.is_grass
-
         # on effectue toutes les actions de la simulation :
+        new_grid_sheep = self.grid.aging()
+        new_grid_wolf = self.grid.aging()
+        new_grid_grass = self.grid.update_grass()
+
+        new_grid_sheep = self.grid.phase_moutons()
+        new_grid_wolf = self.grid.phase_loups()
         
+        new_grid_sheep = self.grid.update_dead()
+        new_grid_wolf = self.grid.update_dead()
+
+        new_grid_sheep = self.grid.reproduction()
+        new_grid_wolf = self.grid.reproduction()
 
         
         #mise à jour de la grille
