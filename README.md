@@ -1,1 +1,1 @@
-# p25-hackaton
+# p25-hackathon
