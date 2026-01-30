@@ -42,7 +42,7 @@ def update_data(frame):
 
     return animated_wolf, animated_sheep, animated_grass
 
-animation = FuncAnimation(fig = fig, func = update_data, frames = len(t), interval=200, repeat = False)
+animation = FuncAnimation(fig = fig, func = update_data, frames = 500, interval=200, repeat = False)
 
 axis[0].set_xlabel('temps')
 axis[1].set_xlabel('temps')
