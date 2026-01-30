@@ -2,8 +2,10 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 import numpy as np
 from simulation import Simulation
+from grid import grid
 
-sim = Simulation()
+grille = grid()
+sim = Simulation(grille)
 
 pop_wolf = []
 pop_sheep = []
@@ -39,6 +41,8 @@ def update_data(frame):
     animated_wolf.set_data(time[:frame], pop_wolf[:frame])
     animated_sheep.set_data(time[:frame], pop_sheep[:frame])
     animated_grass.set_data(time[:frame], grass[:frame])
+
+    sim.start()
 
     return animated_wolf, animated_sheep, animated_grass
 

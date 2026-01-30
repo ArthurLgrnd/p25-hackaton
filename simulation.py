@@ -6,12 +6,11 @@ class Simulation :
 
     def __init__(self,
                  grid,
-                 time,
                  max_time = 500,          
                  ) : 
         
         self.grid = grid
-        self.time = time
+        self.time = 0
         self.max_time = max_time
 
 
@@ -48,7 +47,7 @@ class Simulation :
         t = self.time
 
 
-        return self.grid, t, pop_sheep, pop_wolf, grass, total_animal 
+        return t, pop_sheep, pop_wolf, grass, total_animal 
     
     
         
