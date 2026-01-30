@@ -67,7 +67,11 @@ class grid:
             for elt in self.is_sheep:
                 if (elt.x,elt.y)==pos:
                     self.is_sheep.remove(elt)
-        
+
+        def remove_grass(self, pos):
+            for elt in self.is_grass:
+                if (elt.x,elt.y)==pos:
+                    self.is_grass.remove(elt)        
 
     def draw(self):
         pyxel.cls(4)
