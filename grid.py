@@ -179,8 +179,8 @@ class grid:
         for w in self.is_wolf:
             w.draw()
 
-    def start(self):
-        pyxel.run(self.update, self.draw)
+
+
 
 grid().start()
 

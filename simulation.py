@@ -1,6 +1,6 @@
 from entities import wolf, sheep, grass
 import numpy as np
-
+import pyxel
 
 class Simulation :
 
@@ -14,29 +14,29 @@ class Simulation :
         self.time = time
         self.max_time = max_time
 
+
+
+    def update(self):
+        # on effectue toutes les actions de la simulation :
+        self.grid.aging_sheep()
+        self.grid.aging_wolf()
+        self.grid.update_grass()
+
+
+        self.grid.phase_moutons()
+        self.grid.phase_loups()
+        
+        self.grid.update_dead()
+        self.grid.update_dead()
+
+        self.grid.reproduction()
+        self.grid.reproduction()
+
+        
+
     def run_sim(self):
     
-        # on effectue toutes les actions de la simulation :
-        new_grid_sheep = self.grid.aging_sheep()
-        new_grid_wolf = self.grid.aging_wolf()
-        new_grid_grass = self.grid.update_grass()
-
-
-
-        new_grid_sheep = self.grid.phase_moutons()
-        new_grid_wolf = self.grid.phase_loups()
-        
-        new_grid_sheep = self.grid.update_dead()
-        new_grid_wolf = self.grid.update_dead()
-
-        new_grid_sheep = self.grid.reproduction()
-        new_grid_wolf = self.grid.reproduction()
-
-        
-        #mise à jour de la grille
-        self.grid.is_sheep = new_grid_sheep
-        self.grid.is_wolf = new_grid_wolf
-        self.grid.is_grass = new_grid_grass
+        self.update()
 
         # populations et recouvrement d'herbe
         pop_sheep = len(self.grid.is_sheep)
@@ -50,4 +50,6 @@ class Simulation :
 
         return self.grid, t, pop_sheep, pop_wolf, grass, total_animal 
         
-   
+    
+    def start(self):
+        pyxel.run(self.update(), self.draw)
