@@ -57,8 +57,6 @@ class grid:
             if libre(x1, y1):
                 self.is_wolf += [wolf(x1, y1,WOLF_INITIAL_ENERGY,0)]
 
-        pyxel.init(GRID_SIZE*TILE, GRID_SIZE*TILE, title="Simulation")
-        pyxel.load("sim.pyxres")
         
         
     def remove_wolf(self, pos): # pos est un couple (x,y)
@@ -158,13 +156,13 @@ class grid:
     def reproduction(self):
         # on parcourt les mouons et regartde si le booléen de reproduction est vrai
         for s in self.is_sheep :
-            s.Reproduction()
+            s.reproduction()
             if s.repro :
                 self.is_sheep.append(sheep(x=s.x,y=s.y,energy = 40,age=0))
                 s.repro = False
         # idem pour les loups
         for w in self.is_wolf :
-            w.Reproduction()
+            w.reproduction()
             if w.repro :
                 self.is_sheep.append(wolf(x=w.x,y=w.y,energy = 40,age=0))
                 w.repro = False
@@ -178,13 +176,8 @@ class grid:
         for w in self.is_wolf:
             w.draw()
     
-    def update(self):
-        pass
 
 
-
-
-grid().start()
 
         
 
