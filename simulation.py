@@ -49,5 +49,7 @@ class Simulation :
 
 
         return self.grid, t, pop_sheep, pop_wolf, grass, total_animal 
+    
+    
         
    

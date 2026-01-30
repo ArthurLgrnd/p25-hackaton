@@ -27,7 +27,7 @@ GRASS_REGROWTH_TIME = 7
 
 class sheep() :
 
-    def __init__(self, x,y,energy,age,energy_seuil): 
+    def __init__(self, x,y,energy,age,energy_seuil=SHEEP_REPRODUCTION_THRESHOLD): 
         self.x=x
         self.y=y
         self.energy=energy
@@ -38,10 +38,6 @@ class sheep() :
 
     def draw(self):
         pyxel.blt(self.x*TILE, self.y*TILE, 0, 0, 0, 16, 16, 0)
-
-
-
-
 
 
     def deplacement(self,cases): # cases : liste des cases intéressantes à voir (priorité aux ressources)  
