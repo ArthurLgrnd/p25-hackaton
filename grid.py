@@ -74,13 +74,13 @@ class grid:
     def where_grass(self,x,y):
         list_grass = []
 
-        if any(g.x-x == -1 and g.y-y == 0 for g in self.is_grass):
+        if any(g.x-x == -1 and g.y-y == 0 and g.state == True for g in self.is_grass):
             list_grass += [(-1,0)]
-        elif any(g.x-x == 1 and g.y-y == 0 for g in self.is_grass):
+        elif any(g.x-x == 1 and g.y-y == 0 and g.state == True for g in self.is_grass):
             list_grass += [(1,0)]
-        elif any(g.x-x == 0 and g.y-y == -1 for g in self.is_grass):
+        elif any(g.x-x == 0 and g.y-y == -1 and g.state == True for g in self.is_grass):
             list_grass += [(0,-1)]
-        elif any(g.x-x == 1 and g.y-y == 1 for g in self.is_grass):
+        elif any(g.x-x == 1 and g.y-y == 1 and g.state == True for g in self.is_grass):
             list_grass += [(0,1)]
         else:
             return [(-1,0),(1,0),(0,-1),(0,1)]

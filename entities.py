@@ -42,8 +42,9 @@ class sheep() :
     def deplacement(self,cases): # cases : liste des cases intéressantes à voir (priorité aux ressources)  
         pas = False
         while pas == False:
-            new_x = self.x + rd.choice(cases)[0]
-            new_y = self.y + rd.choice(cases)[1]
+            alea = rd.choice(cases)
+            new_x = self.x + alea[0]
+            new_y = self.y + alea[1]
             if 0<= new_x < 50 and 0<= new_y < 50 :
                 (self.x,self.y) = (new_x,new_y)
                 pas = True
@@ -83,8 +84,9 @@ class wolf() :
     def deplacement(self,cases): # cases : liste des cases intéressantes à voir (priorité aux ressources) 
         pas =False 
         while pas == False:
-            new_x = self.x + rd.choice(cases)[0]
-            new_y = self.y + rd.choice(cases)[1]
+            alea = rd.choice(cases)
+            new_x = self.x + alea[0]
+            new_y = self.y + alea[1]
             if 0<= new_x < 50 and 0<= new_y < 50 :
                 (self.x,self.y) = (new_x,new_y)
                 pas = True

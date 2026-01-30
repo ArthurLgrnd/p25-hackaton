@@ -30,7 +30,7 @@ class Simulation :
 
     def __init__(self): 
 
-        pyxel.init(GRID_SIZE*TILE, GRID_SIZE*TILE, title="Simulation")
+        pyxel.init(GRID_SIZE*TILE, GRID_SIZE*TILE, title="Simulation", fps=1)
         pyxel.load("sim.pyxres")
         
         self.grid = grid()
@@ -40,28 +40,25 @@ class Simulation :
 
 
     def update(self):
+            
         # on effectue toutes les actions de la simulation :
+            self.grid.aging_sheep()
+            self.grid.aging_wolf()
+            self.grid.update_grass()
+
+
+            self.grid.phase_moutons()
+            self.grid.phase_loups()
         
-        self.grid.aging_sheep()
-        self.grid.aging_wolf()
-        self.grid.update_grass()
+            self.grid.update_dead()
+            self.grid.update_dead()
 
-
-        self.grid.phase_moutons()
-        self.grid.phase_loups()
-        
-        self.grid.update_dead()
-        self.grid.update_dead()
-
-        self.grid.reproduction()
-        self.grid.reproduction()
+            self.grid.reproduction()
+            self.grid.reproduction()
 
         
 
     def run_sim(self):
-    
-        self.update()
-
         # populations et recouvrement d'herbe
         pop_sheep = len(self.grid.is_sheep)
         pop_wolf = len(self.grid.is_wolf)
@@ -76,7 +73,7 @@ class Simulation :
     
     
     def draw(self):
-        grid().draw()
+        self.grid.draw()
     
     def start(self):
         pyxel.run(self.update, self.draw)
