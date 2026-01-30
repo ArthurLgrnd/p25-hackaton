@@ -58,6 +58,9 @@ class sheep() :
     def meurt(self,age_limite):  # Âge limite à définir dans simulation
          if self.energy<=0 or self.age > age_limite:
               self.mort=True
+    
+    def aging(self):
+         self.age+=1
               
 
 class wolf() :
@@ -84,7 +87,10 @@ class wolf() :
 
     def meurt(self,age_limite):  # Âge limite à définir dans simulation
          if self.energy<=0 or self.age > age_limite:
-              self.mort=True   
+              self.mort=True  
+
+    def aging(self):
+         self.age+=1 
 
 class grass() :
     
