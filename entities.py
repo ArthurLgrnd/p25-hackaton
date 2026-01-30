@@ -89,15 +89,15 @@ class wolf() :
 class grass() :
     
     def __init__(self,x,y,state): # eventuellement retirer x et y
-         self.x=x
-         self.y=y
-         self.state=state # Bool
-         self.compt=0
+        self.x=x
+        self.y=y
+        self.state=state # Bool
+        self.compt=0
 
     def growing(self):
-         self.compt+=1
-         if self.compt==7: # Eventuellement l'appeler regrowth_rate et le mettre en cte sur main
-              self.state=True
-              self.compt=0
+        self.compt+=1
+        if self.compt==7: # Eventuellement l'appeler regrowth_rate et le mettre en cte sur main
+            self.state=True
+            self.compt=0
 
         

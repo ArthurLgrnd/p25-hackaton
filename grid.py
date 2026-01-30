@@ -53,16 +53,99 @@ class grid:
         pyxel.init(GRID_SIZE, GRID_SIZE, title="Simulation")
         
         
-        def remove_wolf(self, pos): # pos est un couple (x,y)
-            for elt in self.is_wolf:
-                if (elt.x,elt.y)==pos:
-                    self.is_wolf.remove(elt)
+    def remove_wolf(self, pos): # pos est un couple (x,y)
+        for elt in self.is_wolf:
+            if (elt.x,elt.y)==pos:
+                self.is_wolf.remove(elt)
 
-        def remove_sheep(self, pos):
-            for elt in self.is_sheep:
-                if (elt.x,elt.y)==pos:
-                    self.is_sheep.remove(elt)
-        
+    def remove_sheep(self, pos):
+        for elt in self.is_sheep:
+            if (elt.x,elt.y)==pos:
+                self.is_sheep.remove(elt)
+    
+
+
+
+
+    # fonction qui renvoie les déplacement intéressants en fonction de la position de l'herbe
+    # renvoie les déplacements dans les 4 directions si pas d'herbe autour
+    def where_grass(self,x,y):
+        list_grass = []
+        for i in [-1,1] :
+            if self[x+i][y].isinstance(grass):   
+                list_grass.append([i,0])
+        for j in [-1,1] :
+            if self[x][y+j].isinstance(grass):   
+                list_grass.append([0,j])
+
+        if list_grass == []:
+            return [(-1,0),(1,0),(0,-1),(0,1)]
+        return list_grass
+
+    # idem pour les moutons
+    def where_sheep(self,x,y):
+        list_sheep = []
+        for i in [-1,1] :
+            if self[x+i][y].isinstance(sheep):   
+                list_sheep.append([i,0])
+        for j in [-1,1] :
+            if self[x][y+j].isinstance(sheep):   
+                list_sheep.append([0,j])
+
+        if list_sheep == []:
+            return [(-1,0),(1,0),(0,-1),(0,1)]
+        return list_sheep
+
+
+
+    # fonction d'action pour update la grille
+    
+    def aging_sheep(self):
+        L = self.is_sheep
+        return [animal.aging() for animal in L]
+    
+    def aging_wolf(self):
+        L = self.is_wolf
+        return [animal.aging() for animal in L]
+                
+
+    def phase_moutons(self):
+        # on supprime l'herbe là où se trouvent des moutons
+        for s in self.is_sheep : 
+            self.remove_grass(s.x,s.y)
+            cases = self.where_grass(s.x,s.y)
+            s.deplacement(cases)
+
+    def phase_loups(self):
+        # on supprime les moutons là où se trouvent des loups
+        for w in self.is_wolf : 
+            self.remove_sheep(w.x,w.y)
+            cases = self.where_grass(w.x,w.y)
+            w.deplacement(cases)
+
+    def update_grass(self):
+        for g in self.is_grass :
+            g.growing()
+
+    def update_dead(self):
+        # on parcourt les loups existants et
+        for w in self.is_wolf : 
+            w.meurt()
+            if w.mort :
+                self.is_wolf.remove(v)
+
+        for s in self.is_sheep : 
+            s.meurt()
+            if s.mort :
+                self.is_sheep.remove(v)
+
+    def reproduction(self):
+        pass 
+
+
+
+
+
 
     def draw(self):
         pyxel.cls(15)

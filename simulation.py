@@ -14,34 +14,6 @@ class Simulation :
         self.time = time
         self.max_time = max_time
 
-    # fonction qui renvoie les déplacement intéressants en fonction de la position de l'herbe
-    # renvoie les déplacements dans les 4 directions si pas d'herbe autour
-    def where_grass(self,x,y):
-        list_grass = []
-        for i in [-1,1] :
-            if self.grid[x+i][y].isinstance(grass):   
-                list_grass.append([i,0])
-        for j in [-1,1] :
-            if self.grid[x][y+j].isinstance(grass):   
-                list_grass.append([0,j])
-
-        if list_grass == []:
-            return [(-1,0),(1,0),(0,-1),(0,1)]
-        return list_grass
-
-    # idem pour les moutons
-    def where_sheep(self,x,y):
-        list_sheep = []
-        for i in [-1,1] :
-            if self.grid[x+i][y].isinstance(sheep):   
-                list_sheep.append([i,0])
-        for j in [-1,1] :
-            if self.grid[x][y+j].isinstance(sheep):   
-                list_sheep.append([0,j])
-
-        if list_sheep == []:
-            return [(-1,0),(1,0),(0,-1),(0,1)]
-        return list_sheep
 
 
 
@@ -50,9 +22,11 @@ class Simulation :
     def run_sim(self):
     
         # on effectue toutes les actions de la simulation :
-        new_grid_sheep = self.grid.aging()
-        new_grid_wolf = self.grid.aging()
+        new_grid_sheep = self.grid.aging_sheep()
+        new_grid_wolf = self.grid.aging_wolf()
         new_grid_grass = self.grid.update_grass()
+
+
 
         new_grid_sheep = self.grid.phase_moutons()
         new_grid_wolf = self.grid.phase_loups()
