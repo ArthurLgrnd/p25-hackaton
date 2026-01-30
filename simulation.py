@@ -51,6 +51,8 @@ class Simulation :
         # parametre de controle de similation
         total_animal = pop_sheep + pop_wolf
         t = self.time
-        return self.grid, t, 
+
+
+        return self.grid, t, pop_sheep, pop_wolf, grass, total_animal 
         
    

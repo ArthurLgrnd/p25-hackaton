@@ -3,13 +3,14 @@ import random as rd
 
 class sheep() :
 
-    def __init__(self, x,y,energy,age): 
+    def __init__(self, x,y,energy,age,energy_seuil = 80): 
         self.x=x
         self.y=y
         self.energy=energy
         self.age=age
         self.mort=False
         self.repro=False
+        self.energy_seuil = energy_seuil
 
     """  # Pour savoir si on est sur le bord
     def cases_dispo(self, grid_size):
@@ -49,26 +50,27 @@ class sheep() :
     def Alimentation(self): # Lancé par sim 
         self.energy+=10
     
-    def Reproduction(self,seuil):  #Seuil à définir dans main
-         if self.energy > seuil:
-              self.energy-=20
-              self.repro=True 
+    def Reproduction(self):  #Seuil à définir dans main
+        if self.energy > self.energy_seuil:
+            self.energy-=20
+            self.repro=True 
 # ATTENTION: il faut que Simulation créée un nv mouton avec 20 d'energie et mette repro à False
     
     def meurt(self,age_limite):  # Âge limite à définir dans simulation
-         if self.energy<=0 or self.age > age_limite:
-              self.mort=True
+        if self.energy<=0 or self.age > age_limite:
+            self.mort=True
               
 
 class wolf() :
     
-    def __init__(self,x,y,energy,age): 
+    def __init__(self,x,y,energy,age,energy_seuil = 80): 
         self.x=x
         self.y=y
         self.energy=energy
         self.age=age
         self.mort=False
         self.repro=False              
+        self.energy_seuil = energy_seuil
 
     def Deplacement(self,cases): # cases : liste des cases possibles (tri si sheep déjà fait)     
         (self.x,self.y) += rd.choice(cases)
@@ -76,15 +78,15 @@ class wolf() :
     def Alimentation(self): # Lancé par sim 
         self.energy+=30 
 
-    def Reproduction(self,seuil):  #Seuil à définir dans main
-         if self.energy > seuil:
-              self.energy-=20
-              self.repro=True 
+    def Reproduction(self):  #Seuil à définir dans main
+        if self.energy > self.energy_seuil:
+            self.energy-=20
+            self.repro=True 
 # ATTENTION: il faut que Simulation créée un nv loup avec 40 d'energie et mette repro à False
 
     def meurt(self,age_limite):  # Âge limite à définir dans simulation
-         if self.energy<=0 or self.age > age_limite:
-              self.mort=True   
+        if self.energy<=0 or self.age > age_limite:
+            self.mort=True   
 
 class grass() :
     

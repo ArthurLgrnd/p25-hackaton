@@ -128,21 +128,31 @@ class grid:
             g.growing()
 
     def update_dead(self):
-        # on parcourt les loups existants et
+        # on parcourt les loups existants et regarde si ils meurent
         for w in self.is_wolf : 
             w.meurt()
             if w.mort :
                 self.is_wolf.remove(v)
-
+        # idem pour les moutons
         for s in self.is_sheep : 
             s.meurt()
             if s.mort :
                 self.is_sheep.remove(v)
 
+
     def reproduction(self):
-        pass 
-
-
+        # on parcourt les mouons et regartde si le booléen de reproduction est vrai
+        for s in self.is_sheep :
+            s.Reproduction()
+            if s.repro :
+                self.is_sheep.append(sheep(x=s.x,y=s.y,energy = 40,age=0))
+                s.repro = False
+        # idem pour les loups
+        for w in self.is_wolf :
+            w.Reproduction()
+            if w.repro :
+                self.is_sheep.append(wolf(x=w.x,y=w.y,energy = 40,age=0))
+                w.repro = False
 
 
 
@@ -154,9 +164,6 @@ class grid:
         for tile in self.is_grass:
             pyxel.rect(tile.x,tile.y,1,1,3)
         
-
-    def update(self):
-        pass
 
     def start(self):
         pyxel.run(self.update, self.draw)
