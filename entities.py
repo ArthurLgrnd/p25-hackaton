@@ -26,17 +26,17 @@ class sheep() :
             if self.y==0:
                 return([(0,1),(1,0)])
 
-            if self.y==grid_size[1]:
+            if self.y==GRID_SIZE:
                 return([(0,-1),(1,0)])
 
             else:
                 return([(0,1),(0,-1),(1,0)])
 
-        elif self.x==grid_size[0]:
+        elif self.x==GRID_SIZE:
             if self.y==0:
                 return([(0,1),(-1,0)])
 
-            if self.y==grid_size[1]:
+            if self.y==GRID_SIZE:
                 return([(0,-1),(-1,0)])
 
             else:
@@ -45,7 +45,7 @@ class sheep() :
         elif self.y==0:
                 return([(0,1),(1,0),(-1,0)])
 
-        elif self.y==grid_size[1]:
+        elif self.y==GRID_SIZE:
                 return([(0,-1),(1,0),(-1,0)])
 
         else:
@@ -55,10 +55,10 @@ class sheep() :
     #def deplacement(self,cases): # cases : liste des cases possibles (tri si grass déjà fait)     
             #(self.x,self.y) += rd.choice(cases)
  
-    def Alimentation(self): # Lancé par sim 
+    def alimentation(self): # Lancé par sim 
         self.energy+=10
     
-    def Reproduction(self,seuil):  #Seuil à définir dans main
+    def reproduction(self,seuil):  #Seuil à définir dans main
          if self.energy > seuil:
               self.energy-=20
               self.repro=True 
@@ -88,10 +88,10 @@ class wolf() :
     #def Deplacement(self,cases): # cases : liste des cases possibles (tri si sheep déjà fait)     
         #(self.x,self.y) += rd.choice(cases)
 
-    def Alimentation(self): # Lancé par sim 
+    def alimentation(self): # Lancé par sim 
         self.energy+=30 
 
-    def Reproduction(self,seuil):  #Seuil à définir dans main
+    def reproduction(self,seuil):  #Seuil à définir dans main
          if self.energy > seuil:
               self.energy-=20
               self.repro=True 

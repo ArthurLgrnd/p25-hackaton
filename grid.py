@@ -3,13 +3,28 @@ import pyxel
 import random as rd
 
 
-GRID_SIZE=30
-TILE=16
-INITIAL_SHEEP=50
-INITIAL_WOLF=10
-INITIAL_GRASS_COVERAGE=30
-SHEEP_INITIAL_ENERGY=20
-WOLF_INITIAL_ENERGY=40
+GRID_SIZE = 30
+TILE = 16
+
+INITIAL_SHEEP = 50
+INITIAL_WOLF = 10
+INITIAL_GRASS_COVERAGE = 30
+SHEEP_INITIAL_ENERGY = 20
+WOLF_INITIAL_ENERGY = 40
+SHEEP_ENERGY_FROM_GRASS = 15
+WOLF_ENERGY_FROM_GRASS = 35
+SHEEP_ENERGY_LOSS_PER_TURN = 1
+WOLF_ENERGY_LOSS_PER_TURN = 2
+
+SHEEP_REPRODUCTION_THRESHOLD = 50
+WOLF_REPRODUCTION_THRESHOLD = 80
+REPRODUCTION_ENERGY_COST = 20
+
+SHEEP_MAX_AGE = 40
+WOLF_MAX_AGE = 50
+
+GRASS_GROWTH_PROBABILITY = 0.08
+GRASS_REGROWTH_TIME = 7
 
 from entities import wolf, sheep, grass
 
@@ -48,19 +63,19 @@ class grid:
         
         
         def remove_wolf(self, pos): # pos est un couple (x,y)
-            for elt in self.is_wolf:
-                if (elt.x,elt.y)==pos:
-                    self.is_wolf.remove(elt)
+            for w in self.is_wolf:
+                if (w.x,w.y)==pos:
+                    self.is_wolf.remove(w)
 
         def remove_sheep(self, pos):
-            for elt in self.is_sheep:
-                if (elt.x,elt.y)==pos:
-                    self.is_sheep.remove(elt)
+            for s in self.is_sheep:
+                if (s.x,s.y)==pos:
+                    self.is_sheep.remove(s)
 
         def remove_grass(self, pos):
-            for elt in self.is_grass:
-                if (elt.x,elt.y)==pos:
-                    self.is_grass.remove(elt)        
+            for g in self.is_grass:
+                if (g.x,g.y)==pos:
+                    self.is_grass.remove(g)        
 
     def draw(self):
         pyxel.cls(4)
@@ -76,8 +91,6 @@ class grid:
 
     def start(self):
         pyxel.run(self.update, self.draw)
-
-
 
 grid().start()
 
