@@ -30,6 +30,16 @@ class grid:
             if wolf(Tile) not in self.is_wolf:
                 self.is_wolf += wolf(Tile)
         
+        def remove_wolf(self, pos): # pos est un couple (x,y)
+            for elt in self.is_wolf:
+                if (elt.x,elt.y)==pos:
+                    self.is_wolf.remove(elt)
+
+        def remove_sheep(self, pos):
+            for elt in self.is_sheep:
+                if (elt.x,elt.y)==pos:
+                    self.is_sheep.remove(elt)
+        
 
     def draw(self):
         pyxel.init(GRID_SIZE, GRID_SIZE, title="Simulation")
