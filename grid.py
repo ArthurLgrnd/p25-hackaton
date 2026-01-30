@@ -112,12 +112,12 @@ class grid:
     # fonction d'action pour update la grille
     
     def aging_sheep(self):
-        L = self.is_sheep
-        return [animal.aging() for animal in L]
+        for s in self.is_sheep :
+            s.aging()
     
     def aging_wolf(self):
-        L = self.is_wolf
-        return [animal.aging() for animal in L]
+        for w in self.is_wolf :
+            w.aging()
                 
 
     def phase_moutons(self):
