@@ -181,8 +181,8 @@ class grid:
     def update(self):
         pass
 
-    def start(self):
-        pyxel.run(self.update, self.draw)
+
+
 
 grid().start()
 

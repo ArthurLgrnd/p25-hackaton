@@ -52,7 +52,7 @@ class sheep() :
         self.energy+=10
     
     def reproduction(self):  #Seuil à définir dans main
-         if self.energy > self.energy_seuil:
+        if self.energy > self.energy_seuil:
             self.energy-=20
             self.repro=True 
 # ATTENTION: il faut que Simulation créée un nv mouton avec 20 d'energie et mette repro à False
