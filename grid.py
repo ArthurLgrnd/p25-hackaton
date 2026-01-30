@@ -63,42 +63,48 @@ class grid:
         
         
     def remove_wolf(self, pos): # pos est un couple (x,y)
-        for elt in self.is_wolf:
-            if (elt.x,elt.y)==pos:
-                self.is_wolf.remove(elt)
+        for w in self.is_wolf:
+            if (w.x,w.y)==pos:
+                self.is_wolf.remove(w)
 
     def remove_sheep(self, pos):
-        for elt in self.is_sheep:
-            if (elt.x,elt.y)==pos:
-                self.is_sheep.remove(elt)
+        for w in self.is_sheep:
+            if (w.x,w.y)==pos:
+                self.is_sheep.remove(w)
     
     # fonction qui renvoie les déplacement intéressants en fonction de la position de l'herbe
     # renvoie les déplacements dans les 4 directions si pas d'herbe autour
     def where_grass(self,x,y):
         list_grass = []
-        for i in [-1,1] :
-            if self[x+i][y].isinstance(grass):   
-                list_grass.append([i,0])
-        for j in [-1,1] :
-            if self[x][y+j].isinstance(grass):   
-                list_grass.append([0,j])
 
-        if list_grass == []:
+        if any(g.x-x == -1 and g.y-y == 0 for g in self.is_grass):
+            list_grass += [(-1,0)]
+        elif any(g.x-x == 1 and g.y-y == 0 for g in self.is_grass):
+            list_grass += [(1,0)]
+        elif any(g.x-x == 0 and g.y-y == -1 for g in self.is_grass):
+            list_grass += [(0,-1)]
+        elif any(g.x-x == 1 and g.y-y == 1 for g in self.is_grass):
+            list_grass += [(0,1)]
+        else:
             return [(-1,0),(1,0),(0,-1),(0,1)]
+        
         return list_grass
 
     # idem pour les moutons
     def where_sheep(self,x,y):
         list_sheep = []
-        for i in [-1,1] :
-            if self[x+i][y].isinstance(sheep):   
-                list_sheep.append([i,0])
-        for j in [-1,1] :
-            if self[x][y+j].isinstance(sheep):   
-                list_sheep.append([0,j])
 
-        if list_sheep == []:
+        if any(s.x-x == -1 and s.y-y == 0 for s in self.is_sheep):
+            list_grass += [(-1,0)]
+        elif any(s.x-x == 1 and s.y-y == 0 for s in self.is_sheep):
+            list_grass += [(1,0)]
+        elif any(s.x-x == 0 and s.y-y == -1 for s in self.is_sheep):
+            list_grass += [(0,-1)]
+        elif any(s.x-x == 1 and s.y-y == 1 for s in self.is_sheep):
+            list_grass += [(0,1)]
+        else:
             return [(-1,0),(1,0),(0,-1),(0,1)]
+        
         return list_sheep
 
 
@@ -117,7 +123,9 @@ class grid:
     def phase_moutons(self):
         # on supprime l'herbe là où se trouvent des moutons
         for s in self.is_sheep : 
-            self.remove_grass(s.x,s.y)
+            eaten_grass = next(( g for g in self.is_grass if g.x == s.x and g.y == s.y and g.state == True), None)
+            if eaten_grass:
+                eaten_grass.state = False
             cases = self.where_grass(s.x,s.y)
             s.deplacement(cases)
 

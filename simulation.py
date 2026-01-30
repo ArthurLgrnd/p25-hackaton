@@ -14,11 +14,6 @@ class Simulation :
         self.time = time
         self.max_time = max_time
 
-
-
-
-
-
     def run_sim(self):
     
         # on effectue toutes les actions de la simulation :
