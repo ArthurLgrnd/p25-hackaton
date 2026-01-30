@@ -46,14 +46,12 @@ class sheep() :
             (self.x,self.y) = (new_x,new_y)
         # on suppose ici que si l'animal veut se déplacer aléatoirement en dehors de la grille , il s'arrete...  
     
-
-
-    def dlimentation(self): # Lancé par sim 
-        self.energy+=10
+    def alimentation(self): # Lancé par sim 
+        self.energy += 10
     
     def reproduction(self):  #Seuil à définir dans main
         if self.energy > self.energy_seuil:
-            self.energy-=20
+            self.energy -= REPRODUCTION_ENERGY_COST
             self.repro=True 
 # ATTENTION: il faut que Simulation créée un nv mouton avec 20 d'energie et mette repro à False
     
@@ -67,7 +65,7 @@ class sheep() :
 
 class wolf() :
     
-    def __init__(self,x,y,energy,age,energy_seuil = 80): 
+    def __init__(self,x,y,energy,age,energy_seuil = WOLF_REPRODUCTION_THRESHOLD): 
         self.x=x
         self.y=y
         self.energy=energy
@@ -80,9 +78,11 @@ class wolf() :
         pyxel.blt(self.x*TILE, self.y*TILE, 1, 0, 0, 16, 16, 0)           
 
     def deplacement(self,cases): # cases : liste des cases intéressantes à voir (priorité aux ressources)  
-        new_x,new_y = (self.x,self.y) + rd.choice(cases)
-        if 0<= new_x < 50 and 0<= new_y < 50 :
-            (self.x,self.y) = (new_x,new_y)
+        while pas == False:
+            new_x, new_y = (self.x,self.y) + rd.choice(cases)
+            if 0<= new_x < 50 and 0<= new_y < 50 :
+                (self.x,self.y) = (new_x,new_y)
+                pas = True
         # on suppose ici que si l'animal veut se déplacer aléatoirement en dehors de la grille , il s'arrete...  
 
     def alimentation(self): # Lancé par sim 
