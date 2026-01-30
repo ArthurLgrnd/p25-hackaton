@@ -183,8 +183,5 @@ class grid:
 
 
 
-
-grid().start()
-
         
 

@@ -26,10 +26,11 @@ class Simulation :
         self.grid.phase_loups()
         
         self.grid.update_dead()
-        self.grid.update_dead()
+    
 
+      
         self.grid.reproduction()
-        self.grid.reproduction()
+        self.time += 1
 
         
 
@@ -40,17 +41,19 @@ class Simulation :
         # populations et recouvrement d'herbe
         pop_sheep = len(self.grid.is_sheep)
         pop_wolf = len(self.grid.is_wolf)
-        grass = len(self.grid.is_grass)
+        herbe = len(self.grid.is_grass)
 
         # parametre de controle de similation
         total_animal = pop_sheep + pop_wolf
+        
+    
         t = self.time
 
 
-        return t, pop_sheep, pop_wolf, grass, total_animal 
+        return t, pop_sheep, pop_wolf, herbe, total_animal 
     
     
         
     
     def start(self):
-        pyxel.run(self.update(), self.draw)
+        pyxel.run(self.update, self.draw)
