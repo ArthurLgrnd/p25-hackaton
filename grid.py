@@ -3,30 +3,31 @@ import pyxel
 import random as rd
 
 
-GRID_SIZE=30
-TILE=16
-INITIAL_SHEEP=50
-INITIAL_WOLF=10
-INITIAL_GRASS_COVERAGE=30
+GRID_SIZE = 30
+TILE = 16
 
-class wolf:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-    def draw(self):
-        pyxel.blt(self.x*TILE, self.y*TILE, 1, 0, 0, 16, 16, 0)
+INITIAL_SHEEP = 50
+INITIAL_WOLF = 10
+INITIAL_GRASS_COVERAGE = 30
+SHEEP_INITIAL_ENERGY = 20
+WOLF_INITIAL_ENERGY = 40
+SHEEP_ENERGY_FROM_GRASS = 15
+WOLF_ENERGY_FROM_GRASS = 35
+SHEEP_ENERGY_LOSS_PER_TURN = 1
+WOLF_ENERGY_LOSS_PER_TURN = 2
 
-class sheep:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-    def draw(self):
-        pyxel.blt(self.x*TILE, self.y*TILE, 0, 0, 0, 16, 16, 0)
+SHEEP_REPRODUCTION_THRESHOLD = 50
+WOLF_REPRODUCTION_THRESHOLD = 80
+REPRODUCTION_ENERGY_COST = 20
 
-class grass:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
+SHEEP_MAX_AGE = 40
+WOLF_MAX_AGE = 50
+
+GRASS_GROWTH_PROBABILITY = 0.08
+GRASS_REGROWTH_TIME = 7
+
+from entities import wolf, sheep, grass
+
 
 class grid:
     def __init__(self):
@@ -38,21 +39,24 @@ class grid:
         def libre(x, y):
             return all(obj.x != x or obj.y != y
                        for obj in (self.is_sheep + self.is_wolf))
+        def sol(x, y):
+            return all(obj.x != x or obj.y !=y
+                       for obj in self.is_grass)
 
         while len(self.is_grass) < np.floor(INITIAL_GRASS_COVERAGE*GRID_SIZE**2/100):
             x1, y1 =rd.randint(0,GRID_SIZE-1), rd.randint(0,GRID_SIZE-1)
-            if grass(x1,y1) not in self.is_grass:
-                self.is_grass += [grass(x1, y1)]
+            if sol(x1,y1):
+                self.is_grass += [grass(x1, y1, True)]
 
         while len(self.is_sheep) < INITIAL_SHEEP:
             x1, y1=rd.randint(0,GRID_SIZE-1), rd.randint(0,GRID_SIZE-1)
             if libre(x1, y1):
-                self.is_sheep += [sheep(x1, y1)]
+                self.is_sheep += [sheep(x1, y1,SHEEP_INITIAL_ENERGY,0)]
 
         while len(self.is_wolf) < INITIAL_WOLF:
             x1, y1=rd.randint(0,GRID_SIZE-1), rd.randint(0,GRID_SIZE-1)
             if libre(x1, y1):
-                self.is_wolf += [wolf(x1, y1)]
+                self.is_wolf += [wolf(x1, y1,WOLF_INITIAL_ENERGY,0)]
 
         pyxel.init(GRID_SIZE*TILE, GRID_SIZE*TILE, title="Simulation")
         pyxel.load("sim.pyxres")
@@ -68,10 +72,6 @@ class grid:
             if (elt.x,elt.y)==pos:
                 self.is_sheep.remove(elt)
     
-
-
-
-
     # fonction qui renvoie les déplacement intéressants en fonction de la position de l'herbe
     # renvoie les déplacements dans les 4 directions si pas d'herbe autour
     def where_grass(self,x,y):
@@ -164,14 +164,10 @@ class grid:
                 self.is_sheep.append(wolf(x=w.x,y=w.y,energy = 40,age=0))
                 w.repro = False
 
-
-
-    
-
     def draw(self):
         pyxel.cls(4)
         for g in self.is_grass:
-            pyxel.rect(g.x*TILE, g.y*TILE, TILE, TILE, 3)
+            g.draw()
         for s in self.is_sheep:
             s.draw()
         for w in self.is_wolf:
@@ -179,8 +175,6 @@ class grid:
 
     def start(self):
         pyxel.run(self.update, self.draw)
-
-
 
 grid().start()
 

@@ -1,23 +1,31 @@
 import numpy as np
 import random as rd
+import pyxel
+
+
+TILE=16
+
 
 class sheep() :
 
-    def __init__(self, x,y,energy,age,energy_seuil = 80): 
+    def __init__(self, x,y,energy,age,energy_seuil): 
         self.x=x
         self.y=y
         self.energy=energy
         self.age=age
+        self.energy_seuil = energy_seuil
         self.mort=False
         self.repro=False
-        self.energy_seuil = energy_seuil
+
+    def draw(self):
+        pyxel.blt(self.x*TILE, self.y*TILE, 0, 0, 0, 16, 16, 0)
 
 
 
 
 
 
-    def Deplacement(self,cases): # cases : liste des cases intéressantes à voir (priorité aux ressources)  
+    def deplacement(self,cases): # cases : liste des cases intéressantes à voir (priorité aux ressources)  
         new_x,new_y = (self.x,self.y) + rd.choice(cases)
         if 0<= new_x < 50 and 0<= new_y < 50 :
             (self.x,self.y) = (new_x,new_y)
@@ -25,11 +33,11 @@ class sheep() :
     
 
 
-    def Alimentation(self): # Lancé par sim 
+    def dlimentation(self): # Lancé par sim 
         self.energy+=10
     
-    def Reproduction(self):  #Seuil à définir dans main
-        if self.energy > self.energy_seuil:
+    def reproduction(self):  #Seuil à définir dans main
+         if self.energy > self.energy_seuil:
             self.energy-=20
             self.repro=True 
 # ATTENTION: il faut que Simulation créée un nv mouton avec 20 d'energie et mette repro à False
@@ -53,13 +61,19 @@ class wolf() :
         self.repro=False              
         self.energy_seuil = energy_seuil
 
-    def Deplacement(self,cases): # cases : liste des cases possibles (tri si sheep déjà fait)     
-        (self.x,self.y) += rd.choice(cases)
+    def draw(self):
+        pyxel.blt(self.x*TILE, self.y*TILE, 1, 0, 0, 16, 16, 0)           
 
-    def Alimentation(self): # Lancé par sim 
+    def deplacement(self,cases): # cases : liste des cases intéressantes à voir (priorité aux ressources)  
+        new_x,new_y = (self.x,self.y) + rd.choice(cases)
+        if 0<= new_x < 50 and 0<= new_y < 50 :
+            (self.x,self.y) = (new_x,new_y)
+        # on suppose ici que si l'animal veut se déplacer aléatoirement en dehors de la grille , il s'arrete...  
+
+    def alimentation(self): # Lancé par sim 
         self.energy+=30 
 
-    def Reproduction(self):  #Seuil à définir dans main
+    def reproduction(self):  #Seuil à définir dans main
         if self.energy > self.energy_seuil:
             self.energy-=20
             self.repro=True 
@@ -79,6 +93,9 @@ class grass() :
         self.y=y
         self.state=state # Bool
         self.compt=0
+
+    def draw(self):
+         pyxel.rect(self.x*TILE, self.y*TILE, TILE, TILE, 3 if self.state == True else 15)
 
     def growing(self):
         self.compt+=1
