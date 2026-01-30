@@ -28,7 +28,6 @@ GRASS_REGROWTH_TIME = 7
 
 from entities import wolf, sheep, grass
 
-
 class grid:
     def __init__(self):
 
@@ -107,8 +106,6 @@ class grid:
         
         return list_sheep
 
-
-
     # fonction d'action pour update la grille
     
     def aging_sheep(self):
@@ -121,10 +118,11 @@ class grid:
                 
 
     def phase_moutons(self):
-        # on supprime l'herbe là où se trouvent des moutons
+        # l'herbe est mangée là où se trouvent des moutons
         for s in self.is_sheep : 
             eaten_grass = next(( g for g in self.is_grass if g.x == s.x and g.y == s.y and g.state == True), None)
             if eaten_grass:
+                s.alimentation
                 eaten_grass.state = False
             cases = self.where_grass(s.x,s.y)
             s.deplacement(cases)
@@ -132,10 +130,11 @@ class grid:
 
     def phase_loups(self):
         # on supprime les moutons là où se trouvent des loups
-        for w in self.is_wolf : 
-            if:
+        for w in self.is_wolf :
+            eaten_sheep = next(( s for s in self.is_sheep if s.x == w.x and s.y == w.y ), None) 
+            if eaten_sheep:
                 w.alimentation
-            self.remove_sheep(w.x,w.y)
+                self.is_sheep.remove(eaten_sheep)
             cases = self.where_grass(w.x,w.y)
             w.deplacement(cases)
 
@@ -148,12 +147,12 @@ class grid:
         for w in self.is_wolf : 
             w.meurt()
             if w.mort :
-                self.is_wolf.remove(v)
+                self.is_wolf.remove(w)
         # idem pour les moutons
         for s in self.is_sheep : 
             s.meurt()
             if s.mort :
-                self.is_sheep.remove(v)
+                self.is_sheep.remove(w)
 
 
     def reproduction(self):
@@ -178,6 +177,9 @@ class grid:
             s.draw()
         for w in self.is_wolf:
             w.draw()
+    
+    def update(self):
+        pass
 
 
 
